@@ -10,11 +10,13 @@ import com.google.android.material.textview.MaterialTextView
 import com.s95ammar.recyclerviewdemo.R
 import com.s95ammar.recyclerviewdemo.model.Product
 
-class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtil()) {
+class ProductsAdapter(
+    private val clickListener: (Product) -> Unit
+) : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
-        return ProductViewHolder(view)
+        return ProductViewHolder(view, clickListener)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -23,10 +25,16 @@ class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(
         }
     }
 
-    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ProductViewHolder(
+        itemView: View,
+        private val clickListener: (Product) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(product: Product) {
 
+            itemView.setOnClickListener {
+                clickListener(product)
+            }
 
             val nameTextView = itemView.findViewById<MaterialTextView>(R.id.name_text_view)
             val sellerTextView = itemView.findViewById<MaterialTextView>(R.id.seller_text_view)
