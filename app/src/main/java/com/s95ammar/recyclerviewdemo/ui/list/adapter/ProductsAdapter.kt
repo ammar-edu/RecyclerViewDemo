@@ -3,14 +3,14 @@ package com.s95ammar.recyclerviewdemo.ui.list.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.s95ammar.recyclerviewdemo.R
 import com.s95ammar.recyclerviewdemo.model.Product
 
-class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>() {
-
-    var list = emptyList<Product>()
+class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
@@ -18,13 +18,9 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        list.getOrNull(position)?.let { product ->
+        getItem(position)?.let { product ->
             holder.bind(product)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
     }
 
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,6 +35,16 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>(
             nameTextView.text = product.name
             sellerTextView.text = product.seller
             priceTextView.text = product.price.toString()
+        }
+    }
+
+    class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem == newItem
         }
     }
 }

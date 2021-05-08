@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_gray"
     tools:context=".ui.list.ListFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/products_button"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="products" />
+
+        <Button
+            android:id="@+id/products_new_button"
+            android:layout_width="wrap_content"
+            android:textAllCaps="false"
+            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
+            android:text="productsNew" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products_recyclerview"
@@ -12,4 +38,4 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_product" />
 
-</FrameLayout>
+</LinearLayout>
